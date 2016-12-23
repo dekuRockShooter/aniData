@@ -262,6 +262,10 @@ for season in sys.argv[1:-2]:
         exit()
     seasons.add(season)
 assert (len(seasons) > 0) and (len(seasons) < 5)
+for season in seasons:
+    for year in range(beg_year, end_year + 1):
+        get_mal_season(season, str(year), 'a')
+        get_mal_season(season, str(year), 'h')
 #get_anime_kansou()
 #get_mal_season('f', str(2016))
 #get_mal_season('f', str(2016), 'h')
