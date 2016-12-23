@@ -255,6 +255,13 @@ assert beg_year <= end_year
 assert ((beg_year / 1000) > 1) and ((beg_year / 1000) < 10)
 assert ((end_year / 1000) > 1) and ((end_year / 1000) < 10)
 assert len(sys.argv) < 8
+seasons = set()
+for season in sys.argv[1:-2]:
+    if season not in ('sp', 'su', 'f', 'w'):
+        print("Invalid season:", season, "See help for valid seasons.")
+        exit()
+    seasons.add(season)
+assert (len(seasons) > 0) and (len(seasons) < 5)
 #get_anime_kansou()
 #get_mal_season('f', str(2016))
 #get_mal_season('f', str(2016), 'h')
