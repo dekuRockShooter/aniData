@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import sys
 
 
 kansou_titles = set()
@@ -227,12 +228,33 @@ def get_mal_season(season, year, category='a'):
             print(k)
     csv_file_out.close()
 
-#for season in ('f', 'w', 'sp', 'su'):
-    #for year in range(1980, 2017):
-        #if (year == 2016 and season == 'f'):
-            #break
-        #get_mal_season(season, str(year))
-        #get_mal_season(season, str(year), 'h')
-get_anime_kansou()
-get_mal_season('f', str(2016))
+if len(sys.argv) < 4:
+    print(
+    """
+    Usage: python anime_seasons.py <seasons> <beg_year> <end_year>
+
+    Note: The arguments are space separated.  If a season appears twice, then
+    the second is ignored.
+
+    <seasons>
+    At least one of w, f, sp, and su.
+
+    <beg_year>
+    The first year to get charts from (four digits).
+
+    <beg_year>
+    The last year to get charts from (four digits).
+
+    """
+    )
+    exit()
+
+beg_year = int(sys.argv[-2])
+end_year = int(sys.argv[-1])
+assert beg_year <= end_year
+assert ((beg_year / 1000) > 1) and ((beg_year / 1000) < 10)
+assert ((end_year / 1000) > 1) and ((end_year / 1000) < 10)
+assert len(sys.argv) < 8
+#get_anime_kansou()
+#get_mal_season('f', str(2016))
 #get_mal_season('f', str(2016), 'h')
