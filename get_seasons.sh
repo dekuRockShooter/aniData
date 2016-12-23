@@ -2,6 +2,14 @@
 #
 #
 
+YEAR_BEG=1980
+YEAR_END=2016
+GET_WINTER=0
+GET_SPRING=0
+GET_SUMMER=0
+GET_FALL=0
+HAS_SEASON_FLAG=0
+
 if [ "$#" == 0 ];
 then
     echo -e "\n"\
@@ -33,6 +41,57 @@ then
          "    $ ./get_seasons.sh -w -f -b 2010 -e 2016\n\n"\
          "The charts are saved in w2010.html, f2010.html, ..., w2016.htm,"\
          "f2016.html.\n"
+    exit
+fi
+
+while getopts "wfsp:b:e:h" opt;
+do
+    case $opt in
+        w)
+            GET_WINTER=1
+            HAS_SEASON_FLAG=1
+            ;;
+        p)
+            GET_SPRING=1
+            HAS_SEASON_FLAG=1
+            ;;
+        s)
+            GET_SUMMER=1
+            HAS_SEASON_FLAG=1
+            ;;
+        f)
+            GET_FALL=1
+            HAS_SEASON_FLAG=1
+            ;;
+            #TODO check if it's less than YEAR_END
+        b)
+            if [[ $OPTARG =~ $YEAR_REGEX ]];
+            then
+                YEAR_BEG=$OPTARG
+            else
+                echo "-b argument must be a 4-digit integer"
+                exit
+            fi
+            ;;
+        e)
+            if [[ $OPTARG =~ $YEAR_REGEX ]];
+            then
+                YEAR_END=$OPTARG
+            else
+                echo "-b argument must be a 4-digit integer"
+                exit
+            fi
+            ;;
+        h)
+            show_help
+            ;;
+    esac
+done
+
+if [ "$HAS_SEASON_FLAG" == 0 ];
+then
+    echo "Seasons not specified."\
+         "At least one of -w, -p, -s, and -f must be given."
     exit
 fi
 
