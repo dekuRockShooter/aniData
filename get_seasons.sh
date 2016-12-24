@@ -44,7 +44,7 @@ then
     exit
 fi
 
-while getopts "wfsp:b:e:h" opt;
+while getopts "wfspb:e:h" opt;
 do
     case $opt in
         w)
