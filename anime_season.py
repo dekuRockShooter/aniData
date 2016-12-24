@@ -231,10 +231,22 @@ def get_mal_season(season, year, category='a'):
 if len(sys.argv) < 4:
     print(
     """
-    Usage: python anime_seasons.py <seasons> <beg_year> <end_year>
+    This program creates csv files that contain the name, total episodes, date
+    aired, and production studio of an anime by extracting the data from an
+    html file from the URL:
 
-    Note: The arguments are space separated.  If a season appears twice, then
-    the second is ignored.
+        http://myanimelist.net/anime/season/<year>/<season>
+
+    where <year> is a four digit year (2000, 2009, etc.) and <season>
+    is one of winter, spring, summer, fall.  It does not download the page,
+    but assumes that a copy exists locally and is named <season><year>.html,
+    where <year> is a four digit year, and <season> is one of w, sp, su, f.
+
+    The generated csv files are named <season><year>_anime.csv and
+    <season><year>_hentai.csv, where <season> and <year> are the same as
+    above.
+
+    Usage: python anime_seasons.py <seasons> <beg_year> <end_year>
 
     <seasons>
     At least one of w, f, sp, and su.
