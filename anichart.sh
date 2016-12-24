@@ -105,7 +105,11 @@ then
     exit
 fi
 
-./get_seasons.sh $ARG_WINTER $ARG_SUMMER $ARG_FALL $ARG_SPRING -b $YEAR_BEG -e $YEAR_END
-python anime_season.py $ARG_SUMMER_2 $ARG_SPRING_2 $ARG_WINTER_2 $ARG_FALL_2 $YEAR_BEG $YEAR_END
-./import_csv_anime.sh -t a $ARG_WINTER $ARG_SUMMER $ARG_FALL $ARG_SPRING -b $YEAR_BEG -e $YEAR_END
-./import_csv_anime.sh -t h $ARG_WINTER $ARG_SUMMER $ARG_FALL $ARG_SPRING -b $YEAR_BEG -e $YEAR_END
+./get_seasons.sh $ARG_WINTER $ARG_SUMMER $ARG_FALL $ARG_SPRING\
+    -b $YEAR_BEG -e $YEAR_END
+python anime_season.py $ARG_SUMMER_2 $ARG_SPRING_2 $ARG_WINTER_2\
+    $ARG_FALL_2 $YEAR_BEG $YEAR_END
+./import_csv_anime.sh -t a $ARG_WINTER $ARG_SUMMER $ARG_FALL\
+    $ARG_SPRING -b $YEAR_BEG -e $YEAR_END
+./import_csv_anime.sh -t h $ARG_WINTER $ARG_SUMMER $ARG_FALL\
+    $ARG_SPRING -b $YEAR_BEG -e $YEAR_END
