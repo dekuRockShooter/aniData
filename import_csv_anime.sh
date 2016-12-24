@@ -130,6 +130,12 @@ then
     exit
 fi
 
+if [ ! -f $DB_NAME ]
+then
+    SQL="CREATE TABLE 'Main' (id integer primary key, Name varchar(30), 'Episodes Watched'    unsigned smallint, 'Total Episodes' unsigned SmallInt, 'Date Aired' Date,            'Production Studio' varchar(30), Score unsigned Double(3,2), Genres varchar(100),    Notes varchar(256));"
+    sqlite3 "$DB_NAME" "$SQL"
+fi
+
 sqlite3 $DB_NAME "CREATE TABLE 'Temp' (Name varchar(30), 'Episodes Watched' unsigned smallint, 'Total Episodes' unsigned SmallInt, 'Date Aired' Date, 'Production Studio' varchar(30), Score unsigned Double(3,2), Genres varchar(100), Notes varchar(256));"
 for year in $(seq $YEAR_BEG $YEAR_END);
 do
