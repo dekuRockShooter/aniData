@@ -217,7 +217,7 @@ def get_mal_season(season, year, category='a'):
         new_date = '{y}-{m}-{d}'.format(y=year, m=month, d=day)
         # TODO: escape "
         csv = '{name}}}}}{tot_eps}}}{date}}}{studio}}}}}}}\n'.\
-                format(name=name_en,
+                format(name=name_en.replace("\"", "\\\""),
                        tot_eps=tot_eps,
                        date=new_date,
                        studio=studio)
