@@ -97,6 +97,7 @@ do
             ;;
         h)
             show_help
+            exit
             ;;
     esac
 done
