@@ -1,0 +1,19 @@
+This repository contains programs to get various data for anime in order to store them in a local database.  It consists of three standalone programs and one main program.  The three standalone programs are get_seasons.sh, import_csv_anime.sh, and anime_season.py.  The main program is anichart.sh.  See the help message for each program to get detailed information about them.
+
+
+HOW TO USE
+There are ways to use this repository:
+
+    1) Run anichart.sh.
+    2) Run get_seasons.sh, anime_season.py, and import_csv_anime.sh in that order.
+    3) Use any program by itself.  Carefully read the help message to understand how to name and format the files needed for proper execution.
+
+The first way is recommended because it is easier and faster.
+
+The program that stores the data in a database, import_csv_anime.sh, does so in the databases named Sybil.db and Hentai.db.  If one does not exist, then it is created.
+
+
+ABOUT
+These programs were created to accomplish one goal: to keep an offline database of all anime.  To make this possible, three steps are needed: 1) data about anime needs to be acquired, 2) the data then needs to be converted into a form readable by a database, 3) the data needs to be stored in the database.  These three steps are implemented by the standalone programs.  The program get_seasons.sh implements the first step, anime_season.py the second, and import_csv_anime.sh the third.  Each program produces output that serves as input for the program of the subsequent step.  Thus, the basic workflow is: first call get_seasons.sh, then call anime_season.py, and finally call import_csv_anime.sh.
+
+To not have to call three programs, you can use one main program that uses the three standalone programs to get data, convert it, and store it all in one step.  This is provided by anichart.sh.
