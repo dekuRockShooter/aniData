@@ -20,19 +20,6 @@ import sys
 genre_map = {}
 kansou_titles = set()
 
-# https://anidb.net/perl-bin/animedb.pl?web=1&unknown=1&tvspecial=1&tvseries=1&show=calendar&ova=1&other=1&musicvideo=1&movie=1&last.anime.year=2016&last.anime.month=16&h=0&do.last.anime=Show&do=calendar
-#
-# The relevant fields are 'last.anime.year', 'last.anime.month', and 'h' (they
-# follow eachother consecutivally).
-# 'last.anime.year': a year with format YYYY.
-# 'last.anime.month': a month in the format 1M or M. If a 1 is prepended, then
-#   M should be 3, 6, 9, or 12, representing the anime for Spring, Summer,
-#   Fall, and Winter, respectively.  If a 1 is not prepended, then the results
-#   show anime for that particular month only.
-# 'h': 0, 1, or 2. This controls the mature content. 0 shows non-mature and
-#   mature content.  1 shows only non-mature content, and 2 shows only mature
-#   content.
-
 months_dict = {
         'January': '01',
         'February': '02',
@@ -60,78 +47,6 @@ months_dict = {
         'Dec': '12'
         }
 
-def get_field(entry, name):
-    try:
-        return next((entry.find('div', class_=name).stripped_strings))
-    except AttributeError:
-        return ''
-
-def get_anime(category='a'):
-    if category == 'h':
-        doc = BeautifulSoup(open('anidb_hentai.html'), 'lxml')
-    else:
-        doc = BeautifulSoup(open('anidb_season.html'), 'lxml')
-    entries = doc.select('div.g_bubble.box')
-    for entry in entries:
-        name_en = get_field(entry, 'name')
-        name_jp = get_field(entry, 'kanji')
-        studio = get_field(entry, 'work')
-        # Format is Dxx Month. D might need to have a zero prepended, and
-        # Month needs to be converted to a number.
-        date = get_field(entry, 'date')
-        day = ''
-        if (date[1].isdigit()):
-            day = date[:2]
-        else:
-            day = '0' + date[0]
-        month_beg = date.find(' ') + 1
-        month = date[month_beg : ]
-        new_date = '{y}-{m}-{d}'.format(y='2016', m=months_dict[month], d=day)
-        type = get_field(entry, 'series')
-        csv = 'null,{name},,,{date},{studio},,,'.format(name=name_en,
-                                                        date=new_date,
-                                                        studio=studio)
-        if category == 'a':
-            if name_jp in kansou_titles:
-                print(csv)
-            elif name_en in kansou_titles:
-                print(csv)
-            else:
-                print('\nERROR: no match found.', name_en, name_jp, sep='\n')
-                print('Enter "e" to use the English name, "s" to skip, or '+
-                      'a different name:')
-                name = input()
-                if name == 'e':
-                    name = name_en
-                elif name == 's':
-                    continue
-                csv = 'null,{name},,,{date},{studio},,,'.format(name=name,
-                                                                date=new_date,
-                                                                studio=studio)
-        # TODO: append to file.
-        print(csv)
-
-def get_anime_kansou():
-    doc = BeautifulSoup(open('kansou_anime.html'), 'lxml')
-    entries = doc.select('table.list tr')
-    entry_iter = iter(entries)
-    next(entry_iter) # Skip header row.
-    for entry in entry_iter:
-        try:
-            first_td = entry.td
-            second_td = first_td.next_sibling.next_sibling # Skip the newline.
-            date = next(first_td.stripped_strings)
-            date = date[: date.find('(')].replace('/', '-')
-            name_jp = next(second_td.stripped_strings)
-            kansou_titles.add(name_jp)
-            #print(date, name_jp in kansou_titles)
-        except AttributeError as err:
-            # End of first table. Tables start with 'th' tags, so they can be
-            # used as markers for the start of a new table. When a new table
-            # starts, the try block tries to access 'td', but there are only
-            # 'th', so an error is raised.
-            print(str(err))
-            break
 
 def get_mal_season(season, year, category='a'):
     """Extract data from a MAL season web page into a csv file.
@@ -253,7 +168,7 @@ def get_mal_season(season, year, category='a'):
                        date=new_date,
                        studio=studio,
                        genres=','.join(genre_names),
-                       tot_watch=tot_watched,
+                       tot_watch=tot_watched.replace(',', ''),
                        score=score,
                        source=source
                       )
