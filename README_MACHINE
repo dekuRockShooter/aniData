@@ -1,0 +1,5 @@
+python get_genres.py w f sp su 2014 2016
+python csv2machine.py w f sp su 2014 2016
+wc to make sure all rows were added
+Open vim and %s~N/A~?~
+Open vim and %s~0?~?~
