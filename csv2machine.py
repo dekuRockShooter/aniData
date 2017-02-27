@@ -45,7 +45,7 @@ def convert(season, year, csv_out, header=True):
         "Vampire": 38,
     }
 
-    csv = '{f3},{f4_1},{f4_2},{f4_3},{f5},{f7},{f8},{f9},{f10}'\
+    csv = '{f3},{f4_1},{f4_2},{f4_3},{f5},{f7},{f8},{f9},{f10},{f11}'\
             .format(f3='tot_eps',
                     f4_1='year',
                     f4_2='month',
@@ -55,6 +55,7 @@ def convert(season, year, csv_out, header=True):
                     f8='tot_watched',
                     f9='score',
                     f10='source',
+                    f11='type',
                     )
     #print(csv)
     if header:
@@ -73,7 +74,7 @@ def convert(season, year, csv_out, header=True):
                 print("****Warning: Skipping unmapped genre ", genre)
                 continue
         date = fields[3].split('-')
-        csv = '{f3},{f4_1},{f4_2},{f4_3},{f5},{f7},{f8},{f9},{f10}'\
+        csv = '{f3},{f4_1},{f4_2},{f4_3},{f5},{f7},{f8},{f9},{f10},{f11}'\
             .format(
                     f3=fields[2],
                     f4_1=date[0],
@@ -84,6 +85,7 @@ def convert(season, year, csv_out, header=True):
                     f8=fields[7],
                     f9=fields[8],
                     f10=fields[9],
+                    f11=fields[10],
                    )
         #print(csv)
         csv_out.write(csv + '\n')
