@@ -145,6 +145,8 @@ def get_mal_season(season, year, category='a'):
         tot_watched = next(entry.find(class_='member fl-r').stripped_strings)
         score = next(entry.find(class_='score').stripped_strings)
         date = next(entry.find(class_='remain-time').stripped_strings)
+        type  = entry.find(class_="info").get_text().lstrip()
+        type = type[: type.find(' ')]
         # tot_eps has form '#eps eps'. Get only #eps.
         sep_idx = tot_eps.find(' ')
         if sep_idx != -1:
@@ -162,7 +164,7 @@ def get_mal_season(season, year, category='a'):
         year = date[-4 :]
         new_date = '{y}-{m}-{d}'.format(y=year, m=month, d=day)
         #csv = name}}eps_watch}}eps_tot}}date_air}}studio}}score}}genre}}notes
-        csv = '{name}}}}}{tot_eps}}}{date}}}{studio}}}}}{genres}}}{tot_watch}}}{score}}}{source}\n'.\
+        csv = '{name}}}}}{tot_eps}}}{date}}}{studio}}}}}{genres}}}{tot_watch}}}{score}}}{source}}}{type}\n'.\
                 format(name=name_en.replace("\"", "\\\""),
                        tot_eps=tot_eps,
                        date=new_date,
@@ -170,7 +172,8 @@ def get_mal_season(season, year, category='a'):
                        genres=','.join(genre_names),
                        tot_watch=tot_watched.replace(',', ''),
                        score=score,
-                       source=source
+                       source=source,
+                       type=type
                       )
         csv_file_out.write(csv)
     # Print anything not found.
